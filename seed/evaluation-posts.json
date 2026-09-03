@@ -1,0 +1,86 @@
+[
+  {
+    "id": "eval-001",
+    "title": "The Behavior of Red Foxes in Winter",
+    "content": "Red foxes (Vulpes vulpes) are highly adaptable animals that thrive in various habitats. During winter, these cunning predators use their keen hearing to locate prey beneath the snow. Their distinctive orange-red fur provides excellent camouflage in autumn forests, while their bushy tails help them maintain balance during hunting.",
+    "correctImageCategory": "red fox",
+    "tags": ["fox", "winter", "wildlife", "animal"]
+  },
+  {
+    "id": "eval-002",
+    "title": "Gray Wolf Pack Dynamics",
+    "content": "Gray wolves (Canis lupus) live in complex social groups called packs. The pack hierarchy consists of an alpha male and female, with subordinates working together to hunt large prey like elk and deer. Wolf packs communicate through howling, body language, and scent marking across their vast territories.",
+    "correctImageCategory": "wolf",
+    "tags": ["wolf", "pack", "wildlife", "animal"]
+  },
+  {
+    "id": "eval-003",
+    "title": "Choosing the Right Dog Breed for Your Family",
+    "content": "Selecting a family dog requires consideration of temperament, size, and energy level. Golden Retrievers, Labrador Retrievers, and Beagles are popular choices known for their gentle nature with children. Consider factors like grooming needs, exercise requirements, and potential allergies when making your decision.",
+    "correctImageCategory": "dog",
+    "tags": ["dog", "family", "pet", "breed"]
+  },
+  {
+    "id": "eval-004",
+    "title": "Black Bears in the Appalachian Mountains",
+    "content": "American black bears (Ursus americanus) are the most common bear species in North America. These omnivorous mammals inhabit the Appalachian Mountains, feeding on berries, nuts, insects, and occasionally small mammals. Despite their name, black bears can range in color from black to brown to cinnamon.",
+    "correctImageCategory": "bear",
+    "tags": ["bear", "mountains", "wildlife", "animal"]
+  },
+  {
+    "id": "eval-005",
+    "title": "White-Tailed Deer Migration Patterns",
+    "content": "White-tailed deer (Odocoileus virginianus) exhibit seasonal migration patterns, moving between summer and winter ranges. These graceful herbivores travel through forest corridors, following food sources and seeking shelter from harsh weather. Their distinctive white tail flashes as an alarm signal when startled.",
+    "correctImageCategory": "deer",
+    "tags": ["deer", "migration", "wildlife", "animal"]
+  },
+  {
+    "id": "eval-006",
+    "title": "Arctic Fox Survival Strategies",
+    "content": "The Arctic fox (Vulpes lagopus) has evolved remarkable adaptations for surviving in extreme cold. Their thick white winter coat provides insulation and camouflage in snowy landscapes. These resourceful hunters cache food during summer months to survive the harsh Arctic winter when prey becomes scarce.",
+    "correctImageCategory": "arctic fox",
+    "tags": ["fox", "arctic", "wildlife", "animal"]
+  },
+  {
+    "id": "eval-007",
+    "title": "Understanding Canine Body Language",
+    "content": "Dogs communicate through a rich vocabulary of body language. A wagging tail doesn't always mean happiness—the speed, direction, and height matter. Ears pinned back indicate fear or submission, while a raised hackles suggests arousal or aggression. Learning these signals helps build better relationships with your canine companions.",
+    "correctImageCategory": "dog",
+    "tags": ["dog", "behavior", "pet", "communication"]
+  },
+  {
+    "id": "eval-008",
+    "title": "The Majestic Brown Bear",
+    "content": "Brown bears (Ursus arctos) are among the largest terrestrial predators. Found across North America, Europe, and Asia, these powerful animals can weigh up to 1,500 pounds. They are excellent fishers, particularly during salmon runs, and play a crucial role in their ecosystems as seed dispersers.",
+    "correctImageCategory": "bear",
+    "tags": ["bear", "brown", "wildlife", "animal"]
+  },
+  {
+    "id": "eval-009",
+    "title": "Forest Ecosystems and Their Inhabitants",
+    "content": "Forest ecosystems support incredible biodiversity, from tiny insects to large mammals. The forest floor provides habitat for decomposers, while the canopy houses birds and arboreal mammals. Understanding these interconnected relationships is crucial for conservation efforts and maintaining healthy woodland environments.",
+    "correctImageCategory": "forest",
+    "tags": ["forest", "ecosystem", "nature", "wildlife"]
+  },
+  {
+    "id": "eval-010",
+    "title": "Wildlife Photography Tips for Beginners",
+    "content": "Capturing stunning wildlife photographs requires patience, knowledge, and the right equipment. Early morning and late afternoon provide the best lighting conditions. Use a telephoto lens for distant subjects, and learn to anticipate animal behavior for more dynamic shots. Always respect wildlife boundaries and never disturb natural behaviors.",
+    "correctImageCategory": "wildlife",
+    "tags": ["photography", "wildlife", "tips", "nature"]
+  },
+  {
+    "id": "eval-011",
+    "title": "The Red Fox: Nature's Trickster",
+    "content": "In folklore across many cultures, the red fox appears as a clever trickster. These intelligent animals have learned to thrive alongside humans in urban environments. Their adaptability, opportunistic feeding habits, and nocturnal nature make them successful survivors in both rural and city landscapes.",
+    "correctImageCategory": "red fox",
+    "tags": ["fox", "urban", "wildlife", "folklore"]
+  },
+  {
+    "id": "eval-012",
+    "title": "Wolf Conservation Efforts Worldwide",
+    "content": "Wolf populations have faced significant challenges due to habitat loss and human conflict. Conservation programs across Europe and North America are working to protect remaining wolf packs and restore their historical ranges. These efforts demonstrate how apex predators are essential for maintaining ecological balance.",
+    "correctImageCategory": "wolf",
+    "tags": ["wolf", "conservation", "wildlife", "protection"]
+  }
+]

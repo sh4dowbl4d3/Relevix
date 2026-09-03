@@ -1,0 +1,129 @@
+name: Relevix
+description: AI Image Relevance Engine
+version: 0.1.0
+
+run:
+  command: npm run dev
+  description: Start the Relevix API server
+
+seed:
+  command: npm run seed
+  description: Seed evaluation posts into the database
+
+test:
+  command: npm test
+  description: Run all tests
+
+evaluate:
+  command: npm run evaluate
+  description: Run evaluation script to calculate top-1 precision
+
+batch:
+  command: npm run batch
+  description: Process images through vision and embedding pipeline
+
+migrate:
+  command: npm run migrate
+  description: Run database migrations
+
+base_url: http://localhost:3000
+
+endpoints:
+  health:
+    method: GET
+    path: /health
+    description: Service health check
+
+  get_images_for_post:
+    method: GET
+    path: /api/posts/:id/images
+    description: Get ranked image suggestions for a post
+    params:
+      id: Post UUID
+    query:
+      limit: Number of suggestions (default: 10)
+      minSimilarity: Minimum similarity threshold
+
+  get_suggestion:
+    method: GET
+    path: /api/suggestions/:suggestionId
+    description: Get detailed suggestion information
+
+  approve_suggestion:
+    method: POST
+    path: /api/suggestions/:suggestionId/approve
+    description: Approve a suggested image
+    body:
+      notes: Optional review notes
+
+  reject_suggestion:
+    method: POST
+    path: /api/suggestions/:suggestionId/reject
+    description: Reject a suggested image
+    body:
+      reason: Rejection reason (required)
+      notes: Optional review notes
+
+  batch_process:
+    method: POST
+    path: /api/batch/process
+    description: Start batch processing
+    query:
+      entityType: 'image' or 'post'
+      limit: Number of items to process
+
+  get_job_status:
+    method: GET
+    path: /api/jobs/:jobId
+    description: Check processing job status
+
+  get_budget:
+    method: GET
+    path: /api/budget
+    description: Get daily budget status
+
+  get_costs:
+    method: GET
+    path: /api/costs
+    description: Get AI cost tracking
+
+environment:
+  required:
+    - DB_HOST
+    - DB_PORT
+    - DB_NAME
+    - DB_USER
+    - DB_PASSWORD
+
+  optional:
+    - GEMINI_API_KEY
+    - USE_LOCAL_AI
+    - OLLAMA_BASE_URL
+    - SIMILARITY_THRESHOLD
+    - CONFIDENCE_THRESHOLD
+    - DAILY_BUDGET_LIMIT_USD
+
+acceptance_probes:
+  - name: PROBE 1
+    description: Batch processing produces valid metadata
+    command: npm run batch
+
+  - name: PROBE 2
+    description: Fox article ranks fox image first
+    command: curl -s "http://localhost:3000/api/posts/eval-001/images" | jq '.data.suggestions[0].category'
+
+  - name: PROBE 3
+    description: Wolf candidate rejected for fox post
+    command: Check guard decision in response
+
+  - name: PROBE 4
+    description: No confident match for unsuitable post
+    command: Check noConfidentMatch flag
+
+  - name: PROBE 5
+    description: Evaluation precision calculated
+    command: npm run evaluate
+
+  - name: PROBE 6
+    description: Cost tracking records exist
+    command: curl -s "http://localhost:3000/api/costs" | jq '.data'

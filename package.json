@@ -1,0 +1,42 @@
+{
+  "name": "relevix",
+  "version": "0.1.0",
+  "description": "Relevix — AI Image Relevance Engine. Semantic image understanding and content matching with mismatch guard.",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx src/server.ts",
+    "migrate": "node dist/infrastructure/database/migrate.js",
+    "seed": "node dist/scripts/seed.js",
+    "batch": "node dist/infrastructure/jobs/batch.js",
+    "evaluate": "node dist/evaluation/evaluate.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "image-relevance",
+    "semantic-matching",
+    "ai-vision",
+    "content-matching"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "pg": "^8.12.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.5",
+    "@types/pg": "^8.11.0",
+    "eslint": "^8.56.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  }
+}
