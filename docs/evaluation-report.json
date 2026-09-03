@@ -1,0 +1,119 @@
+{
+  "timestamp": "2026-09-03T14:09:39.441Z",
+  "totalPosts": 12,
+  "correctPredictions": 9,
+  "top1Precision": 0.75,
+  "results": [
+    {
+      "postId": "eval-001",
+      "postTitle": "The Behavior of Red Foxes in Winter",
+      "expectedCategory": "red fox",
+      "topSuggestionCategory": "red fox",
+      "topSimilarity": 0.5584819649745215,
+      "accepted": true,
+      "correct": true
+    },
+    {
+      "postId": "eval-002",
+      "postTitle": "Gray Wolf Pack Dynamics",
+      "expectedCategory": "wolf",
+      "topSuggestionCategory": "wolf",
+      "topSimilarity": 0.5227611660957336,
+      "accepted": true,
+      "correct": true
+    },
+    {
+      "postId": "eval-003",
+      "postTitle": "Choosing the Right Dog Breed for Your Family",
+      "expectedCategory": "dog",
+      "topSuggestionCategory": "dog",
+      "topSimilarity": 0.5672503878846883,
+      "accepted": false,
+      "correct": true
+    },
+    {
+      "postId": "eval-004",
+      "postTitle": "Black Bears in the Appalachian Mountains",
+      "expectedCategory": "bear",
+      "topSuggestionCategory": "bear",
+      "topSimilarity": 0.5428730411193684,
+      "accepted": true,
+      "correct": true
+    },
+    {
+      "postId": "eval-005",
+      "postTitle": "White-Tailed Deer Migration Patterns",
+      "expectedCategory": "deer",
+      "topSuggestionCategory": "deer",
+      "topSimilarity": 0.5245245382473157,
+      "accepted": false,
+      "correct": true
+    },
+    {
+      "postId": "eval-006",
+      "postTitle": "Arctic Fox Survival Strategies",
+      "expectedCategory": "arctic fox",
+      "topSuggestionCategory": "red fox",
+      "topSimilarity": 0.5584819649745215,
+      "accepted": false,
+      "correct": false,
+      "explanation": "No confident match: Category mismatch: post expects arctic fox, detected red fox"
+    },
+    {
+      "postId": "eval-007",
+      "postTitle": "Understanding Canine Body Language",
+      "expectedCategory": "dog",
+      "topSuggestionCategory": "dog",
+      "topSimilarity": 0.5672503878846883,
+      "accepted": false,
+      "correct": true
+    },
+    {
+      "postId": "eval-008",
+      "postTitle": "The Majestic Brown Bear",
+      "expectedCategory": "bear",
+      "topSuggestionCategory": "bear",
+      "topSimilarity": 0.5428730411193684,
+      "accepted": true,
+      "correct": true
+    },
+    {
+      "postId": "eval-009",
+      "postTitle": "Forest Ecosystems and Their Inhabitants",
+      "expectedCategory": "forest",
+      "topSuggestionCategory": "dog",
+      "topSimilarity": 0.08859180923079879,
+      "accepted": false,
+      "correct": false,
+      "explanation": "No confident match: Similarity score 0.089 below threshold 0.4; Category mismatch: post expects forest, detected dog; Subject mismatch: post discusses bird, image shows dalmatian"
+    },
+    {
+      "postId": "eval-010",
+      "postTitle": "Wildlife Photography Tips for Beginners",
+      "expectedCategory": "wildlife",
+      "topSuggestionCategory": "bear",
+      "topSimilarity": 0.05062284471460721,
+      "accepted": false,
+      "correct": false,
+      "explanation": "No confident match: Similarity score 0.051 below threshold 0.4; Category mismatch: post expects wildlife, detected bear"
+    },
+    {
+      "postId": "eval-011",
+      "postTitle": "The Red Fox: Nature's Trickster",
+      "expectedCategory": "red fox",
+      "topSuggestionCategory": "red fox",
+      "topSimilarity": 0.5584819649745215,
+      "accepted": true,
+      "correct": true
+    },
+    {
+      "postId": "eval-012",
+      "postTitle": "Wolf Conservation Efforts Worldwide",
+      "expectedCategory": "wolf",
+      "topSuggestionCategory": "wolf",
+      "topSimilarity": 0.5227611660957336,
+      "accepted": true,
+      "correct": true
+    }
+  ]
+}

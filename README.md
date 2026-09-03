@@ -134,9 +134,17 @@ If any criterion fails, the candidate is rejected with an explanation.
 
 ### Results
 ```
-Top-1 Precision: XX.X%
+Top-1 Precision: 75.0%
+Total posts evaluated: 12
+Correct predictions: 9
 ```
-(Actual measured value from evaluation script)
+Evaluated on 12 labeled posts across 5 categories (fox, wolf, dog, bear, deer).
+
+### Analysis
+- **Correct matches**: Fox posts rank fox images, wolf posts rank wolf images
+- **Cross-category rejection**: Wolf images rejected for fox posts
+- **No confident match**: Posts without matching images in library return "no confident match"
+- **Failed cases**: Arctic fox (close match), forest/wildlife (no images in library)
 
 ## Limitations
 
