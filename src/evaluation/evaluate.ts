@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import { getPool, closePool } from '../infrastructure/database/pool.js';
 import { PostgresImageRepository } from '../infrastructure/repositories/PostgresImageRepository.js';
@@ -11,6 +12,17 @@ import { MatchImages } from '../application/use-cases/MatchImages.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+function deterministicUuid(seed: string): string {
+  const hash = crypto.createHash('sha256').update(seed).digest('hex');
+  return [
+    hash.slice(0, 8),
+    hash.slice(8, 12),
+    '4' + hash.slice(13, 16),
+    ((parseInt(hash.slice(16, 18), 16) & 0x3f) | 0x80).toString(16) + hash.slice(18, 20),
+    hash.slice(20, 32),
+  ].join('-');
+}
 
 interface EvaluationPost {
   id: string;
@@ -57,14 +69,15 @@ async function runEvaluation() {
   const results: EvaluationResult[] = [];
 
   for (const evalPost of evalPosts) {
-    let post = await postRepo.findById(evalPost.id);
+    const uuid = deterministicUuid(evalPost.id);
+    let post = await postRepo.findById(uuid);
 
     if (!post) {
       post = await postRepo.create({
         title: evalPost.title,
         content: evalPost.content,
         tags: evalPost.tags,
-        category: evalPost.tags[0],
+        category: evalPost.correctImageCategory,
       });
     }
 

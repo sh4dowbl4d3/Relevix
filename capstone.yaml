@@ -110,7 +110,7 @@ acceptance_probes:
 
   - name: PROBE 2
     description: Fox article ranks fox image first
-    command: curl -s "http://localhost:3000/api/posts/eval-001/images" | jq '.data.suggestions[0].category'
+    command: curl -s "http://localhost:3000/api/posts/3c439c00-adff-4b48-889d-1616407c7418/images" | jq '.data.suggestions[0].category'
 
   - name: PROBE 3
     description: Wolf candidate rejected for fox post

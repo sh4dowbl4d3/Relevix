@@ -7,7 +7,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   DB_HOST: z.string().default('localhost'),
-  DB_PORT: z.coerce.number().default(5432),
+  DB_PORT: z.coerce.number().default(5433),
   DB_NAME: z.string().default('relevix'),
   DB_USER: z.string().default('relevix'),
   DB_PASSWORD: z.string().default('changeme_in_production'),
