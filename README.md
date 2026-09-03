@@ -63,30 +63,91 @@ Relevix uses AI to:
 
 ## Setup
 
+### Prerequisites
+- Node.js 18+
+- Docker & Docker Compose
+- npm
+
+### Step 1: Clone and Install
 ```bash
-# Clone and install
 git clone https://github.com/sh4dowbl4d3/Relevix.git
 cd Relevix
 npm install
+```
 
-# Start PostgreSQL
+### Step 2: Start PostgreSQL
+```bash
 docker-compose up -d
+```
+Wait ~10 seconds for PostgreSQL to be ready. Verify with:
+```bash
+pg_isready -h 127.0.0.1 -p 5433 -U relevix -d relevix
+```
 
-# Configure environment
+### Step 3: Configure Environment
+```bash
 cp .env.example .env
-# Edit .env with your settings
+```
 
-# Run migrations
-npm run migrate
+Edit `.env` with your settings. For local development without AI keys:
+```
+DB_PORT=5433
+USE_LOCAL_AI=true
+SIMILARITY_THRESHOLD=0.4
+```
 
-# Seed evaluation posts
+### Step 4: Build TypeScript
+```bash
+npm run build
+```
+
+### Step 5: Seed Database
+```bash
+# Seed 12 evaluation posts
 npm run seed
 
-# Process images (place images in images/ first)
-npm run batch
+# Seed 38 images with metadata and embeddings
+npm run seed:images
 
-# Start server
+# Seed post embeddings
+npm run seed:post-embeddings
+```
+
+### Step 6: Start Server
+```bash
 npm run dev
+```
+Server runs at http://localhost:3000
+
+### Step 7: Verify
+```bash
+# Health check
+curl http://localhost:3000/health
+
+# Get images for fox post
+curl http://localhost:3000/api/posts/3c439c00-adff-4b48-889d-1616407c7418/images
+
+# Run evaluation
+npm run evaluate
+
+# Run tests
+npm test
+```
+
+### All Commands Reference
+```bash
+npm run build              # Build TypeScript
+npm run dev                # Start dev server
+npm run start              # Start production server
+npm run test               # Run all tests
+npm run test:watch         # Run tests in watch mode
+npm run seed               # Seed evaluation posts
+npm run seed:images        # Seed images with metadata
+npm run seed:post-embeddings  # Seed post embeddings
+npm run reseed             # Regenerate all embeddings
+npm run evaluate           # Calculate top-1 precision
+npm run batch              # Process images through AI pipeline
+npm run migrate            # Run database migrations
 ```
 
 ## API Overview
