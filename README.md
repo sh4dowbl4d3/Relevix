@@ -219,4 +219,4 @@ See [EVIDENCE.md](EVIDENCE.md) for detailed proof of requirements.
 
 ## License
 
-MIT
+This project is licensed under the [MIT License](LICENSE).
