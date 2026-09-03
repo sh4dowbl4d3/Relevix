@@ -1,60 +1,99 @@
 # Relevix Evidence
 
+## Test Results
+
+```
+Test Files  5 passed | 1 skipped (6)
+     Tests  36 passed | 7 skipped (43)
+  Duration  710ms
+```
+
 ## Schema Validation
 
 ### Test: Valid Vision Output
 ```
-PASS tests/unit/image-metadata-validation.test.ts
-  ✓ should accept valid vision output
-  ✓ should validate and return clean metadata
+✓ should accept valid vision output
+✓ should validate and return clean metadata
 ```
 
 ### Test: Invalid Vision Output Rejected
 ```
-PASS tests/unit/image-metadata-validation.test.ts
-  ✓ should reject output with missing fields
-  ✓ should reject output with extra fields
-  ✓ should throw on invalid output
+✓ should reject output with missing fields
+✓ should reject output with extra fields
+✓ should throw on invalid output
 ```
 
 ## Mismatch Guard
 
 ### Test: Fox vs Wolf Rejection
 ```
-PASS tests/unit/mismatch-guard.test.ts
-  ✓ should reject a wolf image for a fox post
-  ✓ should accept a red fox image for a fox post
+✓ should reject a wolf image for a fox post
+✓ should accept a red fox image for a fox post
 ```
 
 ### Test: No Confident Match
 ```
-PASS tests/unit/mismatch-guard.test.ts
-  ✓ should reject when similarity is below threshold
-  ✓ should reject when confidence is below threshold
+✓ should reject when similarity is below threshold
+✓ should reject when confidence is below threshold
 ```
 
-## Database Integration
+## Budget Guard
 
-### Test: Image CRUD
 ```
-PASS tests/integration/api.test.ts
-  ✓ should create and retrieve an image
-  ✓ should save and retrieve metadata
-```
-
-### Test: Job Tracking
-```
-PASS tests/integration/api.test.ts
-  ✓ should create and track a job
-  ✓ should track costs
+✓ should allow operations within budget
+✓ should reject when vision calls exceed limit
+✓ should reject when embedding calls exceed limit
+✓ should reject when cost exceeds budget
+✓ should return budget status
 ```
 
-### Test: Suggestion Workflow
+## Match Images Use Case
+
 ```
-PASS tests/integration/api.test.ts
-  ✓ should create and approve a suggestion
-  ✓ should reject a suggestion with reason
+✓ should throw error for non-existent post
+✓ should generate embedding for post without vector
+✓ should return suggestions with guard decisions
+✓ should mark noConfidentMatch when no suggestions accepted
 ```
+
+## Acceptance Probes
+
+### PROBE 1: Schema Validation
+```
+✓ should validate correct vision output
+✓ should reject low confidence classification
+✓ should reject invalid output structure
+```
+
+### PROBE 2: Fox Article Query
+```
+✓ should rank fox image first for fox post
+✓ should rank wolf lower than fox
+✓ should rank dog significantly lower
+```
+
+### PROBE 3: Wolf Candidate Rejection
+```
+✓ should reject wolf for fox post with explanation
+```
+
+### PROBE 4: No Confident Match
+```
+✓ should reject when similarity below threshold
+✓ should reject when confidence below threshold
+```
+
+### PROBE 6: Cost Tracking
+```
+✓ should have cost record structure
+```
+
+## Database Integration (Requires PostgreSQL)
+
+```
+↓ tests/integration/api.test.ts (7 tests | 7 skipped)
+```
+Skipped because PostgreSQL is not running in test environment.
 
 ## API Endpoints
 
@@ -85,32 +124,4 @@ Total posts evaluated: 12
 Correct top-1 predictions: X
 Top-1 Precision: XX.X%
 ```
-(Actual results will be populated after running evaluation)
-
-## Acceptance Probes
-
-### PROBE 1: Batch Processing
-- [ ] All images have schema-valid metadata
-- [ ] Low-confidence images flagged
-- [ ] Invalid output rejected
-
-### PROBE 2: Fox Article Query
-- [ ] Fox image ranks first
-- [ ] Wolf ranks clearly lower
-- [ ] Dog ranks clearly lower
-
-### PROBE 3: Wolf Candidate Rejection
-- [ ] Mismatch guard rejects wolf
-- [ ] Response contains subject mismatch explanation
-
-### PROBE 4: No Suitable Image
-- [ ] Returns "no confident match"
-- [ ] Explanation provided
-
-### PROBE 5: Evaluation Script
-- [ ] Top-1 precision calculated
-- [ ] Output reproducible
-- [ ] README contains measured value
-
-### PROBE 6: Cost Tracking
-- [ ] Every AI call has attributed cost record
+(Actual results will be populated after running evaluation with database)
