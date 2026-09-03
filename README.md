@@ -37,19 +37,19 @@ Relevix uses AI to:
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                   Application Layer                         │
-│  Use cases: MatchImages, IngestImage, GenerateEmbedding    │
+│  Use cases: MatchImages, IngestImage, GenerateEmbedding     │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                    Domain Layer                             │
-│  Entities, MismatchGuard, BudgetGuard                      │
+│  Entities, MismatchGuard, BudgetGuard                       │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 Infrastructure Layer                        │
-│  PostgreSQL + pgvector, AI providers, Repositories         │
+│  PostgreSQL + pgvector, AI providers, Repositories          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -65,8 +65,8 @@ Relevix uses AI to:
 
 ```bash
 # Clone and install
-git clone <repo-url>
-cd relevix
+git clone https://github.com/sh4dowbl4d3/Relevix.git
+cd Relevix
 npm install
 
 # Start PostgreSQL
