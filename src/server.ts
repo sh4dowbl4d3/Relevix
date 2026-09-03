@@ -14,6 +14,7 @@ import { ImageController } from './api/controllers/ImageController.js';
 import { BatchController } from './api/controllers/BatchController.js';
 import { createImageRoutes } from './api/routes/imageRoutes.js';
 import { createBatchRoutes } from './api/routes/batchRoutes.js';
+import { createAdminRoutes } from './api/routes/adminRoutes.js';
 import { errorHandler, notFoundHandler } from './api/middleware/errorHandler.js';
 
 async function main() {
@@ -57,6 +58,7 @@ async function main() {
 
   app.use('/api', createImageRoutes(imageController));
   app.use('/api', createBatchRoutes(batchController));
+  app.use('/api', createAdminRoutes(suggestionRepo));
 
   app.get('/health', (req, res) => {
     res.json({ status: 'ok', service: 'relevix', timestamp: new Date().toISOString() });
