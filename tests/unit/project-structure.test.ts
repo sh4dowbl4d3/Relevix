@@ -26,7 +26,7 @@ describe('Project Structure', () => {
       'src/infrastructure/jobs',
       'src/evaluation',
       'migrations',
-      'scripts',
+      'src/scripts',
       'seed',
       'tests',
       'tests/unit',
@@ -113,7 +113,7 @@ describe('Project Structure', () => {
       'src/infrastructure/jobs/BatchProcessor.ts',
       'src/evaluation/evaluate.ts',
       'migrations/001_initial_schema.sql',
-      'scripts/seed.ts',
+      'src/scripts/seed.ts',
       'seed/evaluation-posts.json',
     ];
 
