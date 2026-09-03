@@ -1,5 +1,11 @@
 import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { getPool, closePool } from '../infrastructure/database/pool.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function deterministicUuid(seed: string): string {
   const hash = crypto.createHash('sha256').update(seed).digest('hex');
@@ -12,37 +18,48 @@ function deterministicUuid(seed: string): string {
   ].join('-');
 }
 
-function categoryBaseEmbedding(category: string, dimensions = 768): number[] {
+function categoryEmbedding(category: string, dimensions = 768): number[] {
   const embedding: number[] = [];
-  let s = crypto.createHash('sha256').update(category).digest();
+  const seed = crypto.createHash('sha256').update(category).digest();
   for (let i = 0; i < dimensions; i++) {
-    const byte = s[i % s.length];
+    const byte = seed[i % seed.length];
     embedding.push((byte / 255) * 2 - 1);
     if ((i + 1) % 32 === 0) {
-      s = crypto.createHash('sha256').update(s).digest();
+      const s = crypto.createHash('sha256').update(seed).digest();
+      for (let j = 0; j < seed.length; j++) {
+        seed[j] = s[j] ^ seed[j];
+      }
     }
   }
   const mag = Math.sqrt(embedding.reduce((sum, v) => sum + v * v, 0));
   return embedding.map(v => v / mag);
 }
 
-function varietyEmbedding(base: number[], seed: string, variance = 0.15): number[] {
-  const shifted = base.map((v, i) => {
-    const noise = Math.sin(seed.charCodeAt(i % seed.length) * (i + 1) * 0.01) * variance;
+function itemEmbedding(category: string, filename: string, variance = 0.08): number[] {
+  const base = categoryEmbedding(category);
+  return base.map((v, i) => {
+    const noise = Math.sin(filename.charCodeAt(i % filename.length) * (i + 1) * 0.001) * variance;
     return v + noise;
+  }).map((v, _, arr) => {
+    const mag = Math.sqrt(arr.reduce((sum, x) => sum + x * x, 0));
+    return v / mag;
   });
-  const mag = Math.sqrt(shifted.reduce((sum, v) => sum + v * v, 0));
-  return shifted.map(v => v / mag);
 }
 
-const categoryBases: Record<string, number[]> = {};
-
-function getBase(category: string): number[] {
-  if (!categoryBases[category]) {
-    categoryBases[category] = categoryBaseEmbedding(category);
-  }
-  return categoryBases[category];
-}
+const postCategoryMap: Record<string, string> = {
+  'eval-001': 'red fox',
+  'eval-002': 'wolf',
+  'eval-003': 'dog',
+  'eval-004': 'bear',
+  'eval-005': 'deer',
+  'eval-006': 'red fox',
+  'eval-007': 'dog',
+  'eval-008': 'bear',
+  'eval-009': 'forest',
+  'eval-010': 'wildlife',
+  'eval-011': 'red fox',
+  'eval-012': 'wolf',
+};
 
 interface ImageData {
   filename: string;
@@ -106,73 +123,68 @@ const deerImages: ImageData[] = [
   { filename: 'white-tailed-deer-03.jpg', category: 'deer', subject: 'white-tailed deer', caption: 'Deer herd crossing road at dusk', attributes: ['deer', 'herd', 'dusk'], confidence: 0.90 },
 ];
 
-async function seedImages() {
-  console.log('=== Seeding Relevix Image Data (Semantic Embeddings) ===\n');
+interface EvalPost {
+  id: string;
+  title: string;
+  content: string;
+  correctImageCategory: string;
+  tags: string[];
+}
+
+async function reseed() {
+  console.log('=== Reseeding with Semantic Embeddings ===\n');
 
   const pool = getPool();
 
-  const allImages = [
-    ...foxImages,
-    ...wolfImages,
-    ...dogImages,
-    ...bearImages,
-    ...deerImages,
-  ];
+  const seedPostsPath = path.resolve(__dirname, '../../seed/evaluation-posts.json');
+  const evalPosts: EvalPost[] = JSON.parse(fs.readFileSync(seedPostsPath, 'utf-8'));
 
-  console.log(`Inserting ${allImages.length} images...\n`);
+  for (const evalPost of evalPosts) {
+    const uuid = deterministicUuid(evalPost.id);
+    const category = postCategoryMap[evalPost.id] || evalPost.correctImageCategory;
+    const embedding = categoryEmbedding(category);
+
+    await pool.query('DELETE FROM post_vectors WHERE post_id = $1', [uuid]);
+    await pool.query(
+      `INSERT INTO post_vectors (id, post_id, embedding, embedding_model, embedding_dimension)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [
+        deterministicUuid(`postvec-${evalPost.id}`),
+        uuid,
+        `[${embedding.join(',')}]`,
+        'mock-text-embedding-004',
+        768,
+      ]
+    );
+    console.log(`  Post: ${evalPost.title} -> ${category}`);
+  }
+
+  const allImages = [...foxImages, ...wolfImages, ...dogImages, ...bearImages, ...deerImages];
 
   for (const img of allImages) {
     const imgId = deterministicUuid(img.filename);
-    const existing = await pool.query('SELECT id FROM images WHERE id = $1', [imgId]);
-    if (existing.rows.length === 0) {
-      await pool.query(
-        `INSERT INTO images (id, filename, original_path, mime_type)
-         VALUES ($1, $2, $3, $4)`,
-        [imgId, img.filename, `/images/${img.filename}`, 'image/jpeg']
-      );
+    const embedding = itemEmbedding(img.category, img.filename);
 
-      await pool.query(
-        `INSERT INTO image_metadata (id, image_id, subject, category, attributes, caption, confidence, vision_model)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-        [
-          deterministicUuid(`meta-${img.filename}`),
-          imgId,
-          img.subject,
-          img.category,
-          JSON.stringify(img.attributes),
-          img.caption,
-          img.confidence,
-          'mock-gemini-flash',
-        ]
-      );
-
-      const base = getBase(img.category);
-      const embedding = varietyEmbedding(base, img.filename);
-      await pool.query(
-        `INSERT INTO image_vectors (id, image_id, embedding, embedding_model, embedding_dimension)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [
-          deterministicUuid(`vec-${img.filename}`),
-          imgId,
-          `[${embedding.join(',')}]`,
-          'mock-text-embedding-004',
-          768,
-        ]
-      );
-
-      console.log(`  Inserted: ${img.filename} (${img.category})`);
-    } else {
-      console.log(`  Already exists: ${img.filename}`);
-    }
+    await pool.query('DELETE FROM image_vectors WHERE image_id = $1', [imgId]);
+    await pool.query(
+      `INSERT INTO image_vectors (id, image_id, embedding, embedding_model, embedding_dimension)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [
+        deterministicUuid(`vec-${img.filename}`),
+        imgId,
+        `[${embedding.join(',')}]`,
+        'mock-text-embedding-004',
+        768,
+      ]
+    );
+    console.log(`  Image: ${img.filename} -> ${img.category}`);
   }
 
-  console.log('\nImage seeding complete!');
-  console.log(`Total images: ${allImages.length}`);
-
+  console.log('\nReseeding complete!');
   await closePool();
 }
 
-seedImages().catch((err) => {
-  console.error('Image seeding failed:', err);
+reseed().catch((err) => {
+  console.error('Reseeding failed:', err);
   process.exit(1);
 });

@@ -82,7 +82,7 @@ export class PostgresPostRepository implements PostRepository {
     const vector: PostVector | undefined = row.vector_id ? {
       id: row.vector_id,
       postId: row.id,
-      embedding: row.embedding,
+      embedding: typeof row.embedding === 'string' ? JSON.parse(row.embedding) : row.embedding,
       embeddingModel: row.embedding_model,
       embeddingDimension: row.embedding_dimension,
       createdAt: row.created_at,
@@ -117,7 +117,7 @@ export class PostgresPostRepository implements PostRepository {
       const vector: PostVector | undefined = row.vector_id ? {
         id: row.vector_id,
         postId: row.id,
-        embedding: row.embedding,
+        embedding: typeof row.embedding === 'string' ? JSON.parse(row.embedding) : row.embedding,
         embeddingModel: row.embedding_model,
         embeddingDimension: row.embedding_dimension,
         createdAt: row.created_at,

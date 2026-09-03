@@ -213,7 +213,7 @@ export class PostgresImageRepository implements ImageRepository {
     return result.rows.map(row => ({
       id: row.id,
       imageId: row.image_id,
-      embedding: row.embedding,
+      embedding: typeof row.embedding === 'string' ? JSON.parse(row.embedding) : row.embedding,
       embeddingModel: row.embedding_model,
       embeddingDimension: row.embedding_dimension,
       createdAt: row.created_at,
@@ -260,7 +260,7 @@ export class PostgresImageRepository implements ImageRepository {
     const vector: ImageVector | undefined = row.vector_id ? {
       id: row.vector_id,
       imageId: row.id,
-      embedding: row.embedding,
+      embedding: typeof row.embedding === 'string' ? JSON.parse(row.embedding) : row.embedding,
       embeddingModel: row.embedding_model,
       embeddingDimension: row.embedding_dimension,
       createdAt: row.created_at,

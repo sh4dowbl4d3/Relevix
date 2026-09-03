@@ -72,7 +72,7 @@ export class MatchImages {
     const similarImages = await this.imageRepo.findSimilarVectorsForPost(
       postEmbedding,
       input.limit || 10,
-      input.minSimilarity || 0.3
+      input.minSimilarity || 0
     );
 
     const suggestions: MatchResult['suggestions'] = [];

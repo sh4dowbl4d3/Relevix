@@ -11,6 +11,8 @@
     "migrate": "node dist/infrastructure/database/migrate.js",
     "seed": "node dist/scripts/seed.js",
     "seed:images": "node dist/scripts/seed-images.js",
+    "seed:post-embeddings": "node dist/scripts/seed-post-embeddings.js",
+    "reseed": "node dist/scripts/reseed-embeddings.js",
     "batch": "node dist/infrastructure/jobs/batch.js",
     "evaluate": "node dist/evaluation/evaluate.js",
     "test": "vitest run",
