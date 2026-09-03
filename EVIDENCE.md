@@ -3,9 +3,9 @@
 ## Test Results
 
 ```
-Test Files  7 passed | 1 skipped (8)
-     Tests  46 passed | 7 skipped (53)
-  Duration  1.01s
+Test Files  8 passed | 1 skipped (9)
+     Tests  50 passed | 7 skipped (57)
+  Duration  1.06s
 ```
 
 ## Schema Validation
