@@ -10,6 +10,7 @@
     "dev": "tsx src/server.ts",
     "migrate": "node dist/infrastructure/database/migrate.js",
     "seed": "node dist/scripts/seed.js",
+    "seed:images": "node dist/scripts/seed-images.js",
     "batch": "node dist/infrastructure/jobs/batch.js",
     "evaluate": "node dist/evaluation/evaluate.js",
     "test": "vitest run",
