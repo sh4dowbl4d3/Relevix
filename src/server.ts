@@ -14,6 +14,7 @@ import { ImageController } from './api/controllers/ImageController.js';
 import { BatchController } from './api/controllers/BatchController.js';
 import { createImageRoutes } from './api/routes/imageRoutes.js';
 import { createBatchRoutes } from './api/routes/batchRoutes.js';
+import { errorHandler, notFoundHandler } from './api/middleware/errorHandler.js';
 
 async function main() {
   const config = getConfig();
@@ -61,16 +62,8 @@ async function main() {
     res.json({ status: 'ok', service: 'relevix', timestamp: new Date().toISOString() });
   });
 
-  app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error('Unhandled error:', err);
-    res.status(500).json({
-      success: false,
-      error: {
-        code: 'INTERNAL_ERROR',
-        message: 'An unexpected error occurred',
-      },
-    });
-  });
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   app.listen(config.PORT, () => {
     console.log(`Relevix server running on port ${config.PORT}`);
